@@ -31,7 +31,6 @@ serve_interface() {
   sleep 5
 }
 
-unclutter -idle 0 > /dev/null &
 serve_interface
 
 while true; do 

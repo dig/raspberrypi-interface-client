@@ -15,7 +15,7 @@ echo " done"
 
 # Dependencies
 echo -n "Installing dependencies..."
-sudo apt-get -y install nodejs npm git unclutter
+sudo apt-get -y install nodejs npm git
 sudo apt-get -y install --no-install-recommends chromium-browser
 echo " done"
 
@@ -54,6 +54,16 @@ systemctl enable interface-client.service
 systemctl stop interface-client.service
 echo " done"
 
+# Disable mouse cursor
+echo -n "Disabling mouse cursor..."
+sudo sed -i '/#xserver-command=X/c\xserver-command=X -nocursor' /etc/lightdm/lightdm.conf
+echo " done"
+
 echo -n " "
-echo -n " Complete!"
+echo -n " Complete! rebooting in 10 seconds..."
 echo -n " "
+
+sleep 10
+sudo reboot
+
+
