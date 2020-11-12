@@ -55,6 +55,5 @@ systemctl stop interface-client.service
 echo " done"
 
 echo -n " "
-echo -n " NOTICE"
-echo -n " Please rename .env.default to .env and fill out the fields inside before starting."
+echo -n " Complete!"
 echo -n " "
