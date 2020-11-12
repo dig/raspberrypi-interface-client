@@ -41,6 +41,11 @@ echo -n "Building react app..."
 sudo npm run build
 echo " done"
 
+# Fix permissions
+echo -n "Fixing service permissions..."
+sudo chmod +x ~/interface-client/scripts/service.sh
+echo " done"
+
 # Install service
 echo -n "Installing service..."
 sudo ln -s ~/interface-client/service/interface-client.service /lib/systemd/system/interface-client.service
