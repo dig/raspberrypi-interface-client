@@ -24,7 +24,7 @@ class Audio extends React.Component {
 
       playing: false,
       percent: 0,
-      volume: 0,
+      volume: 50,
       track: {
         name: '...'
       },
@@ -38,8 +38,9 @@ class Audio extends React.Component {
     if (localStorage.getItem(SPOTIFY_REFRESH_TOKEN_KEY) != null) {
       console.log('spotify : using refresh token from storage');
       await this.setRefreshToken(localStorage.getItem(SPOTIFY_REFRESH_TOKEN_KEY));
-      this.refreshAccessToken();
+      await this.refreshAccessToken();
       this.startAccessRefresh();
+      this.onSpotifyAuthorization();
     } else {
       const query = new URLSearchParams(window.location.search);
       if (query.has('code')) {
@@ -51,6 +52,7 @@ class Audio extends React.Component {
           await this.setRefreshToken(data.refresh_token);
 
           this.startAccessRefresh();
+          this.onSpotifyAuthorization();
           return;
         }
       }
@@ -77,7 +79,10 @@ class Audio extends React.Component {
     }
   }
 
-  componentWillUnmount = () => clearInterval(this.refreshInterval);
+  componentWillUnmount = () => {
+    clearInterval(this.refreshInterval);
+    clearInterval(this.refreshTrackInterval);
+  };
 
   setAccessToken = async (token) => {
     console.log('spotify : setAccessToken');
@@ -89,6 +94,32 @@ class Audio extends React.Component {
     console.log('spotify : setRefreshToken');
     localStorage.setItem(SPOTIFY_REFRESH_TOKEN_KEY, token);
     await this.setState({ refresh_token: token });
+  }
+
+  onSpotifyAuthorization = async () => {
+    await this.refreshTrackInformation();
+    this.refreshTrackInterval = setInterval(this.refreshTrackInformation, 60 * 1000);
+    await spotifyApi.setVolume(this.state.volume);
+  }
+
+  refreshTrackInformation = async () => {
+    const current = await spotifyApi.getMyCurrentPlayingTrack();
+    if (current.is_playing && current.item) {
+      let artist = '...';
+      if (current.item.artists.length > 0) {
+        artist = current.item.artists[0].name;
+      }
+
+      this.setState({
+        playing: true,
+        track: {
+          name: current.item.name
+        },
+        artist: {
+          name: artist
+        }
+      });
+    }
   }
 
   handleStateControl = async () => {
