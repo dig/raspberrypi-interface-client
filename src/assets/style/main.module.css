@@ -1,11 +1,5 @@
-.outer {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-
 .shortcuts {
-  height: 85%;
+  height: 100%;
 }
 
 .shortcut {

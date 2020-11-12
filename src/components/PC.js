@@ -1,5 +1,8 @@
 import React from 'react';
 
+import styles from '../assets/style/pc.module.css';
+import Audio from './Audio';
+
 class PC extends React.Component {
   constructor(props) {
     super(props);
@@ -8,7 +11,9 @@ class PC extends React.Component {
 
   render() {
     return (
-      <h1>PC</h1>
+      <div className={styles.charts}>
+        1
+      </div>
     );
   }
 }

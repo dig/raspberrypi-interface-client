@@ -12,25 +12,19 @@ const classes = ClassLister(styles);
 
 const Main = (props) => {
   return (
-    <div className={styles.outer}>
-      <div className={styles.shortcuts}>
-        <div className={classes('shortcut', 'discord')}>
-          <img src={Discord} />
-        </div>
+    <div className={styles.shortcuts}>
+      <div className={classes('shortcut', 'discord')}>
+        <img src={Discord} />
+      </div>
 
-        <Link to={'/pc'}>
-          <div className={classes('shortcut', 'pcstats')}>
-            <div className={styles.title}>
-              PC Stats
-            </div>
-            <img src={BarChart} />
+      <Link to={'/pc'}>
+        <div className={classes('shortcut', 'pcstats')}>
+          <div className={styles.title}>
+            PC Stats
           </div>
-        </Link>
-      </div>
-
-      <div className={styles.audio}>
-        <Audio />
-      </div>
+          <img src={BarChart} />
+        </div>
+      </Link>
     </div>
   );
 };
