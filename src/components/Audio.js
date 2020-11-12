@@ -170,12 +170,14 @@ class Audio extends React.Component {
     await spotifyApi.setVolume(this.state.volume);
   }
 
-  handleTrackClick = (event) => {
+  handleTrackClick = async (event) => {
     let newValue = event.nativeEvent.offsetX * 1 / event.currentTarget.offsetWidth;
     if (newValue < 0.05) {
       newValue = 0;
     }
-    console.log(newValue);
+    
+    await spotifyApi.seek(Math.round(this.state.track.duration * newValue));
+    await this.refreshTrackInformation();
   }
 
   handlePlayNextClick = async () => {
