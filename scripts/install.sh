@@ -15,7 +15,7 @@ echo " done"
 
 # Dependencies
 echo -n "Installing dependencies..."
-sudo apt-get -y install nodejs npm git
+sudo apt-get -y install nodejs npm git unclutter
 sudo apt-get -y install --no-install-recommends chromium-browser
 echo " done"
 
