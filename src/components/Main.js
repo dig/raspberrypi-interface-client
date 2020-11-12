@@ -1,5 +1,6 @@
 import React from 'react';
 import ClassLister from 'css-module-class-lister';
+import { Link } from 'react-router-dom';
 
 import styles from '../assets/style/main.module.css';
 import Discord from '../assets/image/discord.png';
@@ -17,12 +18,14 @@ const Main = (props) => {
           <img src={Discord} />
         </div>
 
-        <div className={classes('shortcut', 'pcstats')}>
-          <div className={styles.title}>
-            PC Stats
+        <Link to={'/pc'}>
+          <div className={classes('shortcut', 'pcstats')}>
+            <div className={styles.title}>
+              PC Stats
+            </div>
+            <img src={BarChart} />
           </div>
-          <img src={BarChart} />
-        </div>
+        </Link>
       </div>
 
       <div className={styles.audio}>
