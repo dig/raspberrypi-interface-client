@@ -60,7 +60,7 @@ sudo sed -i '/#xserver-command=X/c\xserver-command=X -nocursor' /etc/lightdm/lig
 echo " done"
 
 echo -n " "
-echo -n " Complete! rebooting in 10 seconds..."
+echo -n "Complete! rebooting in 10 seconds..."
 echo -n " "
 
 sleep 10
