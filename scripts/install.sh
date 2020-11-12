@@ -43,7 +43,7 @@ echo " done"
 
 # Install service
 echo -n "Installing service..."
-ln -s ~/interface-client/service/interface-client.service /lib/systemd/system/interface-client.service
+sudo ln -s ~/interface-client/service/interface-client.service /lib/systemd/system/interface-client.service
 systemctl daemon-reload
 systemctl enable interface-client.service
 systemctl stop interface-client.service
