@@ -27,8 +27,8 @@ echo " done"
 
 # Download interface files
 echo -n "Downloading interface files..."
-git clone https://github.com/dig/raspberrypi-interface-client.git interface-client
-cd interface-client
+git clone https://github.com/dig/raspberrypi-interface-client.git ~/interface-client
+cd ~/interface-client
 echo " done"
 
 # React dependencies
