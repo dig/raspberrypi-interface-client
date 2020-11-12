@@ -18,9 +18,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "npm install -g serve && cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "serve -s build -l 3000"
   },
   "homepage": ".",
   "browserslist": {
@@ -43,5 +44,8 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dig/raspberrypi-interface-client/issues"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
   }
 }
