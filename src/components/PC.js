@@ -4,6 +4,7 @@ import Chartist from 'chartist';
 import ChartistGraph from 'react-chartist';
 
 import styles from '../assets/style/pc.module.css';
+import Home from '../assets/image/home.png';
 
 const classes = ClassLister(styles);
 
@@ -201,8 +202,48 @@ class PC extends React.Component {
         </div>
 
         <div className={styles.row_small}>
-          <div className={classes('stat', 'stat_small')}>
-            ...
+          <div className={classes('stat', 'stat_small', 'stat_middle')}>
+            <div className={styles.title}>
+              Uptime
+            </div>
+
+            <div className={styles.text}>
+              {this.state.uptime ? this.state.uptime : '...'}
+            </div>
+          </div>
+
+          <div className={classes('stat', 'stat_small', 'stat_middle')}>
+            <div className={styles.title}>
+              Download
+            </div>
+
+            <div className={styles.text}>
+              {this.state.download ? this.state.download : '...'}
+            </div>
+          </div>
+
+          <div className={classes('stat', 'stat_small', 'stat_middle')}>
+            <div className={styles.title}>
+              Upload
+            </div>
+
+            <div className={styles.text}>
+              {this.state.upload ? this.state.upload : '...'}
+            </div>
+          </div>
+
+          <div className={classes('stat', 'stat_small', 'stat_middle')}>
+            <div className={styles.title}>
+              VRAM
+            </div>
+
+            <div className={styles.text}>
+              {this.state.vram ? this.state.vram : '...'}
+            </div>
+          </div>
+
+          <div className={classes('stat', 'stat_small', 'stat_middle', 'stat_right')}>
+            <img src={Home} alt="Home icon" />
           </div>
         </div>
       </div>
