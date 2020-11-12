@@ -76,6 +76,21 @@
   float: left;
 }
 
+.information_value_full {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  font-weight: 600;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+}
+
+.information_value_full > div {
+  position: absolute;
+  right: 20px;
+}
+
 .information_value_big {
   position: relative;
   height: 55%;
