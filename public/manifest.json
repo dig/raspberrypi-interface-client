@@ -1,0 +1,8 @@
+{
+  "short_name": "Interface",
+  "name": "Interface",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#d32f2f",
+  "background_color": "#171717"
+}
