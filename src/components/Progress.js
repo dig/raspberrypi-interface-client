@@ -8,7 +8,7 @@ const Progress = (props) => {
     }}>
       <div className={styles.inner} style={{
         backgroundColor: props.innerBackground ? props.innerBackground : '#b3b3b3',
-        width: `${props.percent ? props.percent : 0}%`
+        width: `${props.progress ? props.progress : 0}%`
       }}></div>
     </div>
   );
