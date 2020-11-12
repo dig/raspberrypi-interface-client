@@ -31,9 +31,11 @@ class PC extends React.Component {
     super(props);
     this.state = {
       cpu: {
+        name: '...',
         data: []
       },
       gpu: {
+        name: '...',
         data: []
       },
     };
@@ -51,7 +53,7 @@ class PC extends React.Component {
                 </div>
 
                 <div className={styles.information_name_brand}>
-                  <div>...</div>
+                  <div>{this.state.cpu.name}</div>
                 </div>
               </div>
 
@@ -89,7 +91,7 @@ class PC extends React.Component {
                 </div>
 
                 <div className={styles.information_name_brand}>
-                  <div>...</div>
+                  <div>{this.state.gpu.name}</div>
                 </div>
               </div>
 

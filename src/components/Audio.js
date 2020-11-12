@@ -17,10 +17,10 @@ class Audio extends React.Component {
       percent: 0,
       volume: 0,
       track: {
-        name: 'Test track name'
+        name: '...'
       },
       artist: {
-        name: 'Test artist name'
+        name: '...'
       }
     };
   }
