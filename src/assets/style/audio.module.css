@@ -13,6 +13,8 @@
 .trackinformation {
   position: relative;
   height: calc(100% - 25px);
+  width: 33.3%;
+  float: left;
 }
 
 .track {
@@ -22,8 +24,8 @@
 
 .track > div {
   position: absolute;
-  bottom: -1px;
-  left: 2%;
+  bottom: 0;
+  left: 6%;
   font-weight: 600;
   font-size: 0.9em;
 }
@@ -35,8 +37,48 @@
 
 .artist > div {
   position: absolute;
-  top: -1px;
-  left: 2%;
+  top: 0;
+  left: 6%;
   color: #b3b3b3;
   font-size: 0.8em;
+}
+
+.controls {
+  width: 33.3%;
+  height: calc(100% - 25px);
+  float: left;
+}
+
+.control {
+  position: relative;
+  width: 33.3%;
+  height: 100%;
+  float: left;
+  display: flex; 
+  align-items: center;
+}
+
+.control-mid {
+  justify-content: center;
+}
+
+.statecontrol {
+  height: 40%; 
+}
+
+.statecontrol-left {
+  position: absolute;
+  right: 0;
+  height: 35%; 
+}
+
+.statecontrol-right {
+  position: absolute;
+  left: 0;
+  height: 35%; 
+}
+
+.flip-horizontal {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
 }
