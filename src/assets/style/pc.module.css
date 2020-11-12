@@ -6,6 +6,10 @@
   height: 41%;
 }
 
+.row_small {
+  height: 18%;
+}
+
 .stat {
   position: relative;
   width: calc(25% - 13px);
@@ -13,6 +17,10 @@
   float: left;
   margin: 10px 5px 5px 5px;
   background-color: #1f1f1f;
+}
+
+.stat_small {
+  width: calc(12.5% - 13px);
 }
 
 .stat_two {
@@ -23,7 +31,7 @@
   margin-left: 10px;
 }
 
-.row:not(:first-child) .stat {
+.row:not(:first-child) .stat, .row_small:not(:first-child) .stat {
   margin-top: 5px;
 }
 

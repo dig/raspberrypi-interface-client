@@ -199,6 +199,12 @@ class PC extends React.Component {
             </div>
           </div>
         </div>
+
+        <div className={styles.row_small}>
+          <div className={classes('stat', 'stat_small')}>
+            ...
+          </div>
+        </div>
       </div>
     );
   }
