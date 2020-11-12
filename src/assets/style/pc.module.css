@@ -1,3 +1,109 @@
-.charts {
+.stats {
   height: 100%;
+}
+
+.row {
+  height: 43.3%;
+}
+
+.stat {
+  position: relative;
+  width: calc(25% - 13px);
+  height: calc(100% - 15px);
+  float: left;
+  margin: 10px 5px 5px 5px;
+  background-color: #1f1f1f;
+}
+
+.stat_two {
+  width: calc(50% - 15px);
+}
+
+.stat:first-child {
+  margin-left: 10px;
+}
+
+.row:not(:first-child) .stat {
+  margin-top: 5px;
+}
+
+.title {
+  position: absolute;
+  top: 5%;
+  color: #fff;
+}
+
+.information {
+  height: 35%;
+}
+
+.information_name {
+  height: 100%;
+  width: 70%;
+  float: left;
+}
+
+.information_name_title {
+  position: relative;
+  height: 50%;
+  width: 100%;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.information_name_title > div {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+}
+
+.information_name_brand {
+  position: relative;
+  height: 50%;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.information_name_brand > div {
+  position: absolute;
+  top: 0;
+  left: 20px;
+}
+
+.information_value {
+  height: 100%;
+  width: 30%;
+  float: left;
+}
+
+.information_value_big {
+  position: relative;
+  height: 55%;
+  width: 100%;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.information_value_big > div {
+  position: absolute;
+  bottom: 2px;
+  right: 20px;
+}
+
+.information_value_small {
+  position: relative;
+  height: 45%;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.information_value_small > div {
+  position: absolute;
+  top: -4px;
+  right: 20px;
+}
+
+.chart {
+  height: 65%;
+  padding: 0 20px;
 }

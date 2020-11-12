@@ -25,3 +25,11 @@ html, body, #root {
 .app > .audio {
   height: 15%;
 }
+
+.ct-chart > .ct-chart-line > .ct-labels span {
+  color: #fff;
+}
+
+.ct-chart > .ct-chart-line > .ct-grids .ct-grid {
+  stroke: #555;
+}
