@@ -7,6 +7,7 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
+RuntimeMaxSec=12h
 User=pi
 WorkingDirectory=/home/pi/interface-client/scripts
 ExecStart=/home/pi/interface-client/scripts/service.sh
