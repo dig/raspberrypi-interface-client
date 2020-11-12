@@ -13,7 +13,7 @@ const Main = (props) => {
     <div className={styles.shortcuts}>
       <div className={styles.row}>
         <div className={classes('shortcut', 'discord')}>
-          <img src={Discord} />
+          <img src={Discord} alt="Discord icon" />
         </div>
 
         <div className={classes('shortcut', 'pcstats')}>
@@ -22,7 +22,7 @@ const Main = (props) => {
               <div className={styles.title}>
                 PC Stats
               </div>
-              <img src={BarChart} />
+              <img src={BarChart} alt="Bar chart icon" />
             </div>
           </Link>
         </div>

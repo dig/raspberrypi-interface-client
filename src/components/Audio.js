@@ -40,21 +40,21 @@ class Audio extends React.Component {
 
         <div className={styles.controls}>
           <div className={styles.control}>
-            <img className={classes('statecontrol', 'statecontrol-left', 'flip-horizontal')} src={FastForward} />
+            <img className={classes('statecontrol', 'statecontrol-left', 'flip-horizontal')} src={FastForward} alt="Go back icon" />
           </div>
 
           <div className={classes('control', 'control-mid')}>
-            <img className={classes('statecontrol', 'statecontrol-mid')} src={Pause} />
+            <img className={classes('statecontrol', 'statecontrol-mid')} src={Pause} alt="Pause / play icon" />
           </div>
 
           <div className={styles.control}>
-            <img className={classes('statecontrol', 'statecontrol-right')} src={FastForward} />
+            <img className={classes('statecontrol', 'statecontrol-right')} src={FastForward} alt="Fast forward icon" />
           </div>
         </div>
 
         <div className={styles.volume}>
           <div className={styles.volumeicon}>
-            <img src={Volume} />
+            <img src={Volume} alt="Volume icon" />
           </div>
 
           <div className={styles.volumeslider}>
