@@ -4,6 +4,7 @@ import classLister from 'css-module-class-lister';
 import styles from '../assets/style/audio.module.css';
 import Pause from '../assets/image/pause.png';
 import FastForward from '../assets/image/fast-forward.png';
+import Volume from '../assets/image/volume.png';
 
 import Progress from './Progress';
 
@@ -47,6 +48,16 @@ class Audio extends React.Component {
 
           <div className={styles.control}>
             <img className={classes('statecontrol', 'statecontrol-right')} src={FastForward} />
+          </div>
+        </div>
+
+        <div className={styles.volume}>
+          <div className={styles.volumeicon}>
+            <img src={Volume} />
+          </div>
+
+          <div className={styles.volumeslider}>
+            <Progress height={'20%'} progress={50}></Progress>
           </div>
         </div>
 

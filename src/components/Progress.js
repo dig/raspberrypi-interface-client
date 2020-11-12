@@ -4,7 +4,8 @@ import styles from '../assets/style/progress.module.css';
 const Progress = (props) => {
   return (
     <div className={styles.outer} style={{
-      backgroundColor: props.background ? props.background : '#404040'
+      backgroundColor: props.background ? props.background : '#404040',
+      height: props.height
     }}>
       <div className={styles.inner} style={{
         backgroundColor: props.innerBackground ? props.innerBackground : '#b3b3b3',

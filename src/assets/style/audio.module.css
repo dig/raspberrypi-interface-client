@@ -8,11 +8,12 @@
   position: absolute;
   width: 100%;
   bottom: 0;
+  height: 25%;
 }
 
 .trackinformation {
   position: relative;
-  height: calc(100% - 25px);
+  height: 75%;
   width: 33.3%;
   float: left;
 }
@@ -27,7 +28,7 @@
   bottom: 0;
   left: 6%;
   font-weight: 600;
-  font-size: 0.9em;
+  font-size: 0.9rem;
 }
 
 .artist {
@@ -40,7 +41,7 @@
   top: 0;
   left: 6%;
   color: #b3b3b3;
-  font-size: 0.8em;
+  font-size: 0.8rem;
 }
 
 .controls {
@@ -81,4 +82,34 @@
 .flip-horizontal {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
+}
+
+.volume {
+  width: 33.3%;
+  height: calc(100% - 25px);
+  float: left;
+}
+
+.volumeicon {
+  position: relative;
+  height: 100%;
+  width: 40%;
+  float: left;
+  display: flex; 
+  align-items: center;
+}
+
+.volumeicon > img {
+  position: absolute;
+  height: 30%;
+  right: -10%;
+}
+
+.volumeslider {
+  height: 100%;
+  width: 60%;
+  float: left;
+  display: flex; 
+  align-items: center;
+  padding: 0 30px;
 }
