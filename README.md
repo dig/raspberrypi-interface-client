@@ -1,6 +1,11 @@
 # raspberrypi-interface-client
 Raspberry PI interface for PC monitoring and shortcuts.
 
+### Requirements
+* Raspberry Pi 4, 3
+* LCD Monitor (5inch, 7inch, 10inch)
+* Pi connected to the internet (WiFi or Ethernet).
+
 ### Configuration
 These files must be configured properly before starting.
 ```
