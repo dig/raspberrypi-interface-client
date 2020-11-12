@@ -27,9 +27,12 @@ class Audio extends React.Component {
 
       playing: false,
       percent: 0,
-      volume: 50,
+      volume: 0,
+
       track: {
-        name: '...'
+        name: '...',
+        duration: 0,
+        end: 0
       },
       artist: {
         name: '...'
@@ -85,6 +88,7 @@ class Audio extends React.Component {
   componentWillUnmount = () => {
     clearInterval(this.refreshInterval);
     clearInterval(this.refreshTrackInterval);
+    clearInterval(this.updateTrackPercentInterval);
   };
 
   setAccessToken = async (token) => {
@@ -101,13 +105,15 @@ class Audio extends React.Component {
 
   onSpotifyAuthorization = async () => {
     await this.refreshTrackInformation();
-    this.refreshTrackInterval = setInterval(this.refreshTrackInformation, 60 * 1000);
-    await spotifyApi.setVolume(this.state.volume);
+    this.refreshTrackInterval = setInterval(this.refreshTrackInformation, 10 * 1000);
+    this.updateTrackPercentInterval = setInterval(this.updateTrackPercent, 10);
   }
 
   refreshTrackInformation = async () => {
-    const current = await spotifyApi.getMyCurrentPlayingTrack();
+    const current = await spotifyApi.getMyCurrentPlaybackState();
     if (current.is_playing && current.item) {
+      const progress = current.progress_ms ? current.progress_ms : 0;
+
       let artist = '...';
       if (current.item.artists.length > 0) {
         artist = current.item.artists[0].name;
@@ -115,12 +121,26 @@ class Audio extends React.Component {
 
       this.setState({
         playing: true,
+        percent: Math.round((progress / current.item.duration_ms) * 100),
+        volume: current.device.volume_percent,
+
         track: {
-          name: current.item.name
+          name: current.item.name,
+          duration: current.item.duration_ms,
+          end: Date.now() + (current.item.duration_ms - progress)
         },
         artist: {
           name: artist
         }
+      });
+    }
+  }
+
+  updateTrackPercent = () => {
+    if (this.state.playing && this.state.track.end >= Date.now()) {
+      const progress = this.state.track.duration - (this.state.track.end - Date.now());
+      this.setState({
+        percent: Math.max(0, Math.min(100, (progress / this.state.track.duration) * 100)),
       });
     }
   }
@@ -131,6 +151,7 @@ class Audio extends React.Component {
       this.setState({ playing: false });
     } else {
       await spotifyApi.play();
+      await this.refreshTrackInformation();
       this.setState({ playing: true });
     }
   }
@@ -144,9 +165,27 @@ class Audio extends React.Component {
     await spotifyApi.setVolume(this.state.volume);
   }
 
-  handleVolumeIconClick = async (event) => {
+  handleVolumeIconClick = async () => {
     await this.setState({ volume: 0 });
     await spotifyApi.setVolume(this.state.volume);
+  }
+
+  handleTrackClick = (event) => {
+    let newValue = event.nativeEvent.offsetX * 1 / event.currentTarget.offsetWidth;
+    if (newValue < 0.05) {
+      newValue = 0;
+    }
+    console.log(newValue);
+  }
+
+  handlePlayNextClick = async () => {
+    await spotifyApi.skipToNext();
+    await this.refreshTrackInformation();
+  }
+
+  handlePlayPreviousClick = async () => {
+    await spotifyApi.skipToPrevious();
+    await this.refreshTrackInformation();
   }
 
   render() {
@@ -164,7 +203,7 @@ class Audio extends React.Component {
 
         <div className={styles.controls}>
           <div className={styles.control}>
-            <img className={classes('statecontrol', 'statecontrol-left', 'flip-horizontal')} src={FastForward} alt="Go back icon" />
+            <img className={classes('statecontrol', 'statecontrol-left', 'flip-horizontal')} src={FastForward} alt="Go back icon" onClick={this.handlePlayPreviousClick} />
           </div>
 
           <div className={classes('control', 'control-mid')}>
@@ -172,7 +211,7 @@ class Audio extends React.Component {
           </div>
 
           <div className={styles.control}>
-            <img className={classes('statecontrol', 'statecontrol-right')} src={FastForward} alt="Fast forward icon" />
+            <img className={classes('statecontrol', 'statecontrol-right')} src={FastForward} alt="Fast forward icon" onClick={this.handlePlayNextClick} />
           </div>
         </div>
 
@@ -187,7 +226,7 @@ class Audio extends React.Component {
         </div>
 
         <div className={styles.trackprogress}>
-          <Progress progress={this.state.percent}></Progress>
+          <Progress progress={this.state.percent} onClick={this.handleTrackClick}></Progress>
         </div>
       </div>
     );
