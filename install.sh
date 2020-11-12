@@ -23,6 +23,12 @@ sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/
 
 echo " done"
 
+# Download interface files
+echo -n "Downloading interface files..."
+git clone git@github.com:dig/raspberrypi-interface-client.git interface-client
+cd interface-client
+echo " done"
+
 # React dependencies
 echo -n "Installing react dependencies..."
 sudo npm install
