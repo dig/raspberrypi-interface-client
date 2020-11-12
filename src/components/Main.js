@@ -16,15 +16,13 @@ const Main = (props) => {
           <img src={Discord} alt="Discord icon" />
         </div>
 
-        <div className={classes('shortcut', 'pcstats')}>
-          <Link to={'/pc'}>
-            <div className={styles.shortcut_inner}>
-              <div className={styles.title}>
-                PC Stats
-              </div>
-              <img src={BarChart} alt="Bar chart icon" />
+        <div className={classes('shortcut', 'pcstats')} onClick={() => props.history.push('/pc')}>
+          <div className={styles.shortcut_inner}>
+            <div className={styles.title}>
+              PC Stats
             </div>
-          </Link>
+            <img src={BarChart} alt="Bar chart icon" />
+          </div>
         </div>
       </div>
     </div>

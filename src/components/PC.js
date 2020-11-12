@@ -50,6 +50,8 @@ class PC extends React.Component {
     };
   }
 
+  handleHomeClick = () => this.props.history.push('/');
+
   render() {
     return (
       <div className={styles.stats}>
@@ -242,7 +244,7 @@ class PC extends React.Component {
             </div>
           </div>
 
-          <div className={classes('stat', 'stat_small', 'stat_middle', 'stat_right')}>
+          <div className={classes('stat', 'stat_small', 'stat_middle', 'stat_right')} onClick={this.handleHomeClick}>
             <img src={Home} alt="Home icon" />
           </div>
         </div>
