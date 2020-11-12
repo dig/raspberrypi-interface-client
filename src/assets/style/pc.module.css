@@ -3,7 +3,7 @@
 }
 
 .row {
-  height: 43.3%;
+  height: 41%;
 }
 
 .stat {
@@ -101,7 +101,7 @@
 
 .information_value_big > div {
   position: absolute;
-  bottom: 2px;
+  bottom: 0px;
   right: 20px;
 }
 
@@ -114,7 +114,7 @@
 
 .information_value_small > div {
   position: absolute;
-  top: -4px;
+  top: -2px;
   right: 20px;
 }
 
