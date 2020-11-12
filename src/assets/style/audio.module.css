@@ -1,3 +1,11 @@
-.outer {
-  background: red;
+.background {
+  position: relative;
+  background-color: #1f1f1f;
+  height: 15%;
+}
+
+.trackprogress {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
