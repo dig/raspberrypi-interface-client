@@ -41,6 +41,14 @@ echo -n "Building react app..."
 sudo npm run build
 echo " done"
 
+# Install service
+echo -n "Installing service..."
+ln -s ~/interface-client/service/interface-client.service /lib/systemd/system/interface-client.service
+systemctl daemon-reload
+systemctl enable interface-client.service
+systemctl stop interface-client.service
+echo " done"
+
 echo -n ""
 echo -n "NOTICE"
 echo -n "Please rename .env.default to .env and fill out the fields inside before starting."

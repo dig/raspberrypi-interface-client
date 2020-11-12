@@ -1,0 +1,15 @@
+[Unit]
+Description=Interface client
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=pi
+WorkingDirectory=~/interface-client/scripts
+ExecStart=~/interface-client/scripts/service.sh
+
+[Install]
+WantedBy=multi-user.target
