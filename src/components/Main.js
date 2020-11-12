@@ -13,18 +13,22 @@ const classes = ClassLister(styles);
 const Main = (props) => {
   return (
     <div className={styles.shortcuts}>
-      <div className={classes('shortcut', 'discord')}>
-        <img src={Discord} />
-      </div>
-
-      <Link to={'/pc'}>
-        <div className={classes('shortcut', 'pcstats')}>
-          <div className={styles.title}>
-            PC Stats
-          </div>
-          <img src={BarChart} />
+      <div className={styles.row}>
+        <div className={classes('shortcut', 'discord')}>
+          <img src={Discord} />
         </div>
-      </Link>
+
+        <div className={classes('shortcut', 'pcstats')}>
+          <Link to={'/pc'}>
+            <div className={styles.shortcut_inner}>
+              <div className={styles.title}>
+                PC Stats
+              </div>
+              <img src={BarChart} />
+            </div>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

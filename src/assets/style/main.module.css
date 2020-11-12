@@ -2,13 +2,24 @@
   height: 100%;
 }
 
+.row {
+  height: 50%;
+}
+
 .shortcut {
   position: relative;
-  width: 25%;
-  height: 50%;
+  width: calc(25% - 13px);
+  height: calc(100% - 15px);
   float: left;
   margin: 10px 5px 5px 5px;
   background-color: #1f1f1f;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+.shortcut_inner {
+  height: 100%;
   display: flex; 
   align-items: center;
   justify-content: center;
@@ -18,7 +29,11 @@
   margin-left: 10px;
 }
 
-.shortcut > img {
+.row:not(:first-child) .shortcut {
+  margin-top: 5px;
+}
+
+.shortcut > img, .shortcut_inner > img {
   height: 45%;
 }
 
@@ -32,10 +47,7 @@
   background-color: #7289da;
 }
 
-.pcstats > img {
+.pcstats .shortcut_inner > img {
   height: 30%;
-}
-
-.audio {
-  height: 15%;
+  width: 65%;
 }
