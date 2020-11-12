@@ -10,8 +10,6 @@
     "react": "^16.13.1",
     "react-chartist": "^0.14.3",
     "react-dom": "^16.13.1",
-    "react-grid-system": "^6.4.2",
-    "react-leaflet": "^2.7.0",
     "react-moment": "^0.9.7",
     "react-number-format": "^4.4.1",
     "react-router-dom": "^5.2.0",
