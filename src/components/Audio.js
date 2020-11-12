@@ -6,6 +6,9 @@ import styles from '../assets/style/audio.module.css';
 import Pause from '../assets/image/pause.png';
 import FastForward from '../assets/image/fast-forward.png';
 import Volume from '../assets/image/volume.png';
+import VolumeHalf from '../assets/image/volume-half.png';
+import VolumeLow from '../assets/image/volume-low.png';
+import VolumeEmpty from '../assets/image/volume-empty.png';
 import Play from '../assets/image/play.png';
 
 import Progress from './Progress';
@@ -132,6 +135,20 @@ class Audio extends React.Component {
     }
   }
 
+  handleVolumeClick = async (event) => {
+    let newValue = event.nativeEvent.offsetX * 1 / event.currentTarget.offsetWidth;
+    if (newValue < 0.05) {
+      newValue = 0;
+    }
+    await this.setState({ volume: Math.round(newValue * 100) });
+    await spotifyApi.setVolume(this.state.volume);
+  }
+
+  handleVolumeIconClick = async (event) => {
+    await this.setState({ volume: 0 });
+    await spotifyApi.setVolume(this.state.volume);
+  }
+
   render() {
     return (
       <div className={styles.background}>
@@ -161,11 +178,11 @@ class Audio extends React.Component {
 
         <div className={styles.volume}>
           <div className={styles.volumeicon}>
-            <img src={Volume} alt="Volume icon" />
+            <img src={this.state.volume > 50 ? Volume : (this.state.volume > 10 ? VolumeHalf : (this.state.volume > 1 ? VolumeLow : VolumeEmpty))} alt="Volume icon" onClick={this.handleVolumeIconClick} />
           </div>
 
           <div className={styles.volumeslider}>
-            <Progress height={'20%'} progress={this.state.volume}></Progress>
+            <Progress height={'20%'} progress={this.state.volume} onClick={this.handleVolumeClick}></Progress>
           </div>
         </div>
 
