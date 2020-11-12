@@ -1,0 +1,46 @@
+.outer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.shortcuts {
+  height: 85%;
+}
+
+.shortcut {
+  position: relative;
+  width: 25%;
+  height: 50%;
+  float: left;
+  margin: 10px 5px 5px 5px;
+  background-color: #1f1f1f;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+.shortcut:first-child {
+  margin-left: 10px;
+}
+
+.shortcut > img {
+  height: 45%;
+}
+
+.title {
+  position: absolute;
+  top: 5%;
+}
+
+.discord {
+  background-color: #7289da;
+}
+
+.pcstats > img {
+  height: 30%;
+}
+
+.audio {
+  height: 15%;
+}

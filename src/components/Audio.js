@@ -1,5 +1,5 @@
 import React from 'react';
-import classLister from 'css-module-class-lister';
+import ClassLister from 'css-module-class-lister';
 
 import styles from '../assets/style/audio.module.css';
 import Pause from '../assets/image/pause.png';
@@ -8,13 +8,14 @@ import Volume from '../assets/image/volume.png';
 
 import Progress from './Progress';
 
-const classes = classLister(styles);
+const classes = ClassLister(styles);
 
 class Audio extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       percent: 0,
+      volume: 0,
       track: {
         name: 'Test track name'
       },
@@ -57,7 +58,7 @@ class Audio extends React.Component {
           </div>
 
           <div className={styles.volumeslider}>
-            <Progress height={'20%'} progress={50}></Progress>
+            <Progress height={'20%'} progress={this.state.volume}></Progress>
           </div>
         </div>
 
