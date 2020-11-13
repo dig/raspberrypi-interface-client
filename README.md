@@ -3,7 +3,7 @@ Raspberry PI interface for PC monitoring and shortcuts.
 
 ### Requirements
 * Raspberry Pi 4, 3
-* Power supply for the Pi (USB-C for Pi 4 and Micro USB for Pi 3)
+* Power supply (USB-C for Pi 4 and Micro USB for Pi 3)
 * Pi connected to the internet (WiFi or Ethernet)
 * Pi LCD Monitor (5inch, 7inch, 10inch)
 * 1GB+ micro sd card
