@@ -1,6 +1,9 @@
 #!/bin/bash
 
 export DISPLAY=:0
+xset -dpms
+xset s noblank
+xset s off
 
 start_kiosk() {
   chromium-browser --noerrdialogs --disable-infobars --check-for-update-interval=31536000 --kiosk "http://localhost:3000"
