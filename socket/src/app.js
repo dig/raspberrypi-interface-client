@@ -7,6 +7,12 @@ const channelMessageRegex = /^([a-zA-Z0-9]+)((:([a-zA-Z0-9]+))+)$/;
 const events = {};
 let connectionCount = 0;
 
+wss.broadcast = function(message, type = 1) {
+  wss.clients
+    .filter(client => client.authenticated && client.clientType === type)  
+    .forEach(client => client.send(data));
+};
+
 const addSocketEvent = (channel, func) => {
   const attached = [];
   if (events[channel]) {
@@ -20,12 +26,15 @@ const addSocketEvent = (channel, func) => {
 addSocketEvent('authenticate', (socket, value, type) => {
   if (value === process.env.SOCKET_AUTH_KEY) {
     socket.authenticated = true;
-    socket.clientType = type;
-    console.log(`${socket.id} authenicated!`);
+    socket.clientType = Number(type);
   }
 });
 
 const handleSocketMessage = (message, ws) => {
+  if (socket.authenticated && socket.clientType === 0) {
+    wss.broadcast(message);
+  }
+
   if (message.length <= 500 && message.match(channelMessageRegex)) {
     const args = message.split(':');
     const channel = args[0];
