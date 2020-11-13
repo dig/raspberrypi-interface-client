@@ -133,6 +133,8 @@ class Audio extends React.Component {
           name: artist
         }
       });
+    } else {
+      this.setState({ playing: current.is_playing });
     }
   }
 
