@@ -8,9 +8,11 @@ const events = {};
 let connectionCount = 0;
 
 wss.broadcast = function(message, type = 1) {
-  wss.clients
-    .filter(client => client.authenticated && client.clientType === type)  
-    .forEach(client => client.send(data));
+  for (const client of wss.clients) {
+    if (client.authenticated && client.clientType === type) {
+      client.send(message);
+    }
+  }
 };
 
 const addSocketEvent = (channel, func) => {
@@ -31,7 +33,7 @@ addSocketEvent('authenticate', (socket, value, type) => {
 });
 
 const handleSocketMessage = (message, ws) => {
-  if (socket.authenticated && socket.clientType === 0) {
+  if (ws.authenticated && ws.clientType === 0) {
     wss.broadcast(message);
   }
 
@@ -40,7 +42,7 @@ const handleSocketMessage = (message, ws) => {
     const channel = args[0];
     args.shift();
 
-    if (events[channel] && (socket.authenticated || channel === 'authenticate')) {
+    if (events[channel] && (ws.authenticated || channel === 'authenticate')) {
       for (const callback of events[channel]) {
         callback(ws, ...args);
       }
