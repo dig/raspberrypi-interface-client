@@ -31,10 +31,10 @@ kiosk_check() {
 serve_interface() {
   cd ~/interface-client
   npm run serve > /dev/null &
-  sleep 5
 }
 
 serve_interface
+sleep 5
 
 while true; do 
   kiosk_check
