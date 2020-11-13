@@ -31,9 +31,9 @@ git clone https://github.com/dig/raspberrypi-interface-client.git ~/interface-cl
 cd ~/interface-client
 echo " done"
 
-# React dependencies
-echo -n "Installing react dependencies..."
-sudo npm install
+# Node dependencies
+echo -n "Installing node dependencies..."
+sudo npm run setup
 echo " done"
 
 # Build react app

@@ -18,6 +18,7 @@
   },
   "scripts": {
     "socket": "cd socket && npm run start",
+    "setup": "npm install && cd socket && npm install",
     "start": "concurrently \"npm run socket\" \"react-scripts start\"",
     "build": "npm install -g serve && cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
