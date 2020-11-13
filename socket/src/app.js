@@ -9,7 +9,9 @@ let connectionCount = 0;
 
 wss.broadcast = function(message, type = 1) {
   for (const client of wss.clients) {
-    if (client.authenticated && client.clientType === type) {
+    if (client.readyState === WebSocket.OPEN 
+        && client.authenticated 
+        && client.clientType === type) {
       client.send(message);
     }
   }

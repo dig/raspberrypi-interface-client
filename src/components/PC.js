@@ -2,6 +2,7 @@ import React from 'react';
 import ClassLister from 'css-module-class-lister';
 import Chartist from 'chartist';
 import ChartistGraph from 'react-chartist';
+import WebSocket from 'ws';
 
 import styles from '../assets/style/pc.module.css';
 import Home from '../assets/image/home.png';
@@ -49,6 +50,13 @@ class PC extends React.Component {
       },
     };
   }
+
+  componentDidMount = () => {
+    this.ws = new WebSocket(`ws://localhost:${process.env.REACT_APP_SOCKET_PORT}`);
+    this.ws.onopen = (event) => this.ws.send(`authenticate:${process.env.REACT_APP_SOCKET_AUTH_KEY}:1`);
+    this.ws.onmessage = (event) => console.log(event);
+  };
+  componentWillUnmount = () => this.ws.close();
 
   handleHomeClick = () => this.props.history.push('/');
 
