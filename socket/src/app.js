@@ -1,7 +1,7 @@
 require('dotenv').config({ path: '../.env' });
 
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: process.env.SOCKET_PORT });
+const wss = new WebSocket.Server({ port: process.env.REACT_APP_SOCKET_PORT });
 
 const channelMessageRegex = /^([a-zA-Z0-9]+)((:([a-zA-Z0-9]+))+)$/;
 const events = {};
@@ -26,7 +26,7 @@ const addSocketEvent = (channel, func) => {
 };
 
 addSocketEvent('authenticate', (socket, value, type) => {
-  if (value === process.env.SOCKET_AUTH_KEY) {
+  if (value === process.env.REACT_APP_SOCKET_AUTH_KEY) {
     socket.authenticated = true;
     socket.clientType = Number(type);
   }
