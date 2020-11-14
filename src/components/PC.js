@@ -7,6 +7,9 @@ import WebSocket from 'ws';
 import styles from '../assets/style/pc.module.css';
 import Home from '../assets/image/home.png';
 
+const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():\"\',\.@#-\s]+))+)$/;
+const CHANNEL_DATA = 'data';
+
 const classes = ClassLister(styles);
 
 const CHART_OPTIONS = {
@@ -34,10 +37,12 @@ class PC extends React.Component {
     this.state = {
       cpu: {
         name: '...',
+        temp: 0,
         data: []
       },
       gpu: {
         name: '...',
+        temp: 0,
         data: []
       },
       memory: {
@@ -53,10 +58,62 @@ class PC extends React.Component {
 
   componentDidMount = () => {
     this.ws = new WebSocket(`ws://localhost:${process.env.REACT_APP_SOCKET_PORT}`);
-    this.ws.onopen = (event) => this.ws.send(`authenticate:${process.env.REACT_APP_SOCKET_AUTH_KEY}:1`);
-    this.ws.onmessage = (event) => console.log(event);
+    this.ws.onopen = (event) => this.ws.send(`authenticate;${process.env.REACT_APP_SOCKET_AUTH_KEY};1`);
+    this.ws.onmessage = this.handleSocketMessage;
   };
   componentWillUnmount = () => this.ws.close();
+
+  handleSocketMessage = (event) => {
+    const message = event.data;
+    if (message.match(CHANNEL_MESSAGE_REGEX)) {
+      const args = message.split(';');
+      const channel = args[0];
+      args.shift();
+      const value = args.join(';');
+
+      if (channel === CHANNEL_DATA) {
+        this.handleChannelData(value);
+      }
+    }
+  }
+
+  handleChannelData = (data) => {
+    data = JSON.parse(data);
+    const newState = {};
+
+    // Processor
+    if (data.processorName) {
+      newState.cpu = this.state.cpu;
+      newState.cpu.name = data.processorName;
+    }
+
+    if (data.processorUsage) {
+      newState.cpu = this.state.cpu;
+      newState.cpu.data.push({
+        x: Date.now(),
+        y: Number(data.processorUsage)
+      });
+    }
+
+    if (data.processorTemp) {
+      newState.cpu = this.state.cpu;
+      newState.cpu.temp = Number(data.processorTemp);
+    }
+
+    // GPU
+    if (data.gpuName) {
+      newState.gpu = this.state.gpu;
+      newState.gpu.name = data.gpuName;
+    }
+
+    // Memory
+    if (data.memoryName) {
+      newState.memory = this.state.memory;
+      newState.memory.name = data.memoryName;
+    }
+
+    this.setState(newState);
+  }
 
   handleHomeClick = () => this.props.history.push('/');
 
@@ -78,11 +135,15 @@ class PC extends React.Component {
 
               <div className={styles.information_value}>
                 <div className={styles.information_value_big}>
-                  <div>0%</div>
+                  <div>
+                    {
+                      this.state.cpu.data.length > 0 ? Math.round(this.state.cpu.data[this.state.cpu.data.length - 1].y) : 0
+                    }%
+                  </div>
                 </div>
 
                 <div className={styles.information_value_small}>
-                  <div>0c</div>
+                  <div>{Math.round(this.state.cpu.temp)}c</div>
                 </div>
               </div>
             </div>
@@ -116,11 +177,15 @@ class PC extends React.Component {
 
               <div className={styles.information_value}>
                 <div className={styles.information_value_big}>
-                  <div>0%</div>
+                  <div>
+                    {
+                      this.state.gpu.data.length > 0 ? Math.round(this.state.gpu.data[this.state.gpu.data.length - 1].y) : 0
+                    }%
+                  </div>
                 </div>
 
                 <div className={styles.information_value_small}>
-                  <div>0c</div>
+                  <div>{Math.round(this.state.gpu.temp)}c</div>
                 </div>
               </div>
             </div>
@@ -164,7 +229,7 @@ class PC extends React.Component {
             <div className={styles.chart}>
               <ChartistGraph className="ct-double-octave" data={{
                 series: [
-                  { data: this.state.cpu.data }
+                  { data: this.state.memory.data }
                 ]
               }} 
               type={'Line'} 

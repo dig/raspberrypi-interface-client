@@ -3,7 +3,7 @@ require('dotenv').config({ path: '../.env' });
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: process.env.REACT_APP_SOCKET_PORT });
 
-const channelMessageRegex = /^([a-zA-Z0-9]+)((:([a-zA-Z0-9]+))+)$/;
+const channelMessageRegex = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():\"\',\.@#-\s]+))+)$/;
 const events = {};
 let connectionCount = 0;
 
@@ -39,8 +39,8 @@ const handleSocketMessage = (message, ws) => {
     wss.broadcast(message);
   }
 
-  if (message.length <= 500 && message.match(channelMessageRegex)) {
-    const args = message.split(':');
+  if (message.match(channelMessageRegex)) {
+    const args = message.split(';');
     const channel = args[0];
     args.shift();
 
