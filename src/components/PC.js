@@ -15,6 +15,8 @@ const STORAGE_GPU_NAME_KEY = 'gpuName';
 const STORAGE_MEMORY_NAME_KEY = 'memoryName';
 const STORAGE_DISK_NAME_KEY = 'diskName';
 
+const STORAGE_MEMORY_TOTAL_KEY = 'memoryTotal';
+
 const classes = ClassLister(styles);
 
 const CHART_OPTIONS = {
@@ -52,7 +54,7 @@ class PC extends React.Component {
       },
       memory: {
         name: localStorage.getItem(STORAGE_MEMORY_NAME_KEY) || '...',
-        total: 0,
+        total: Number(localStorage.getItem(STORAGE_MEMORY_TOTAL_KEY)) || 0,
         data: []
       },
       disk: {
@@ -122,6 +124,7 @@ class PC extends React.Component {
 
     if (data.memoryTotal) {
       newState.memory.total = Number(data.memoryTotal);
+      localStorage.setItem(STORAGE_MEMORY_TOTAL_KEY, data.memoryTotal);
     }
 
     if (data.memoryAvailable && newState.memory.total > 0) {
