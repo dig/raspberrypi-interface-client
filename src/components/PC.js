@@ -10,6 +10,11 @@ import Home from '../assets/image/home.png';
 const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():\"\',\.@#-\s]+))+)$/;
 const CHANNEL_DATA = 'data';
 
+const STORAGE_CPU_NAME_KEY = 'cpuName';
+const STORAGE_GPU_NAME_KEY = 'gpuName';
+const STORAGE_MEMORY_NAME_KEY = 'memoryName';
+const STORAGE_DISK_NAME_KEY = 'diskName';
+
 const classes = ClassLister(styles);
 
 const CHART_OPTIONS = {
@@ -36,21 +41,22 @@ class PC extends React.Component {
     super(props);
     this.state = {
       cpu: {
-        name: '...',
+        name: localStorage.getItem(STORAGE_CPU_NAME_KEY) || '...',
         temp: 0,
         data: []
       },
       gpu: {
-        name: '...',
+        name: localStorage.getItem(STORAGE_GPU_NAME_KEY) || '...',
         temp: 0,
         data: []
       },
       memory: {
-        name: '...',
+        name: localStorage.getItem(STORAGE_MEMORY_NAME_KEY) || '...',
+        total: 0,
         data: []
       },
       disk: {
-        name: '...',
+        name: localStorage.getItem(STORAGE_DISK_NAME_KEY) || '...',
         data: []
       },
     };
@@ -79,16 +85,19 @@ class PC extends React.Component {
 
   handleChannelData = (data) => {
     data = JSON.parse(data);
-    const newState = {};
+    const newState = this.state;
 
     // Processor
     if (data.processorName) {
-      newState.cpu = this.state.cpu;
       newState.cpu.name = data.processorName;
+      localStorage.setItem(STORAGE_CPU_NAME_KEY, data.processorName);
     }
 
     if (data.processorUsage) {
-      newState.cpu = this.state.cpu;
+      if (newState.cpu.data.length >= 60) {
+        newState.cpu.data.shift();
+      }
+
       newState.cpu.data.push({
         x: Date.now(),
         y: Number(data.processorUsage)
@@ -96,20 +105,34 @@ class PC extends React.Component {
     }
 
     if (data.processorTemp) {
-      newState.cpu = this.state.cpu;
       newState.cpu.temp = Number(data.processorTemp);
     }
 
     // GPU
     if (data.gpuName) {
-      newState.gpu = this.state.gpu;
       newState.gpu.name = data.gpuName;
+      localStorage.setItem(STORAGE_GPU_NAME_KEY, data.gpuName);
     }
 
     // Memory
     if (data.memoryName) {
-      newState.memory = this.state.memory;
       newState.memory.name = data.memoryName;
+      localStorage.setItem(STORAGE_MEMORY_NAME_KEY, data.memoryName);
+    }
+
+    if (data.memoryTotal) {
+      newState.memory.total = Number(data.memoryTotal);
+    }
+
+    if (data.memoryAvailable && newState.memory.total > 0) {
+      if (newState.memory.data.length >= 60) {
+        newState.memory.data.shift();
+      }
+
+      newState.memory.data.push({
+        x: Date.now(),
+        y: Number(data.memoryAvailable)
+      });
     }
 
     this.setState(newState);
@@ -117,7 +140,15 @@ class PC extends React.Component {
 
   handleHomeClick = () => this.props.history.push('/');
 
+  convertBytesToGb = (bytes) => bytes / 1024 / 1024 / 1024;
+
   render() {
+    const memoryData = [];
+    this.state.memory.data.forEach(obj => memoryData.push({
+        x: obj.x,
+        y: (obj.y / this.state.memory.total) * 100
+    }));
+
     return (
       <div className={styles.stats}>
         <div className={styles.row}>
@@ -137,7 +168,9 @@ class PC extends React.Component {
                 <div className={styles.information_value_big}>
                   <div>
                     {
-                      this.state.cpu.data.length > 0 ? Math.round(this.state.cpu.data[this.state.cpu.data.length - 1].y) : 0
+                      this.state.cpu.data.length > 0 
+                        ? Math.round(this.state.cpu.data[this.state.cpu.data.length - 1].y) 
+                        : 0
                     }%
                   </div>
                 </div>
@@ -179,7 +212,9 @@ class PC extends React.Component {
                 <div className={styles.information_value_big}>
                   <div>
                     {
-                      this.state.gpu.data.length > 0 ? Math.round(this.state.gpu.data[this.state.gpu.data.length - 1].y) : 0
+                      this.state.gpu.data.length > 0 
+                        ? Math.round(this.state.gpu.data[this.state.gpu.data.length - 1].y) 
+                        : 0
                     }%
                   </div>
                 </div>
@@ -221,7 +256,14 @@ class PC extends React.Component {
 
               <div className={styles.information_value}>
                 <div className={styles.information_value_full}>
-                  <div>0/0 GB</div>
+                  <div>
+                    {this.state.memory.data.length > 0 
+                      ? this.convertBytesToGb(this.state.memory.data[this.state.memory.data.length - 1].y).toFixed(1)
+                      : 0}
+                    /
+                    {this.convertBytesToGb(this.state.memory.total).toFixed(1)} 
+                    GB
+                  </div>
                 </div>
               </div>
             </div>
@@ -229,7 +271,7 @@ class PC extends React.Component {
             <div className={styles.chart}>
               <ChartistGraph className="ct-double-octave" data={{
                 series: [
-                  { data: this.state.memory.data }
+                  { data: memoryData }
                 ]
               }} 
               type={'Line'} 
