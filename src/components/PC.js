@@ -265,7 +265,7 @@ class PC extends React.Component {
                       : 0}
                     /
                     {this.convertBytesToGb(this.state.memory.total).toFixed(1)} 
-                    GB
+                    &nbsp;GB
                   </div>
                 </div>
               </div>
