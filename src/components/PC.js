@@ -174,17 +174,17 @@ class PC extends React.Component {
     }));
 
     const seconds = (Date.now() - this.state.system.since) / 1000;
-    const uptimeSeconds = Math.round(this.state.system.uptime + seconds);
+    const uptimeSeconds = Math.floor(this.state.system.uptime + seconds);
     
     let uptime = `${uptimeSeconds} sec${uptimeSeconds > 1 ? 's' : ''}`;
     if (uptimeSeconds >= 86400) {
-      const days = Math.round(uptimeSeconds / 60 / 60 / 24);
+      const days = Math.floor(uptimeSeconds / 60 / 60 / 24);
       uptime = `${days} day${days > 1 ? 's' : ''}`;
     } else if (uptimeSeconds >= 3600) {
-      const hours = Math.round(uptimeSeconds / 60 / 60);
+      const hours = Math.floor(uptimeSeconds / 60 / 60);
       uptime = `${hours} hour${hours > 1 ? 's' : ''}`;
     } else if (uptimeSeconds >= 60) {
-      const mins = Math.round(uptimeSeconds / 60);
+      const mins = Math.floor(uptimeSeconds / 60);
       uptime = `${mins} min${mins > 1 ? 's' : ''}`;
     }
 
