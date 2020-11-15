@@ -56,7 +56,8 @@ echo " done"
 
 # Disable mouse cursor
 echo -n "Disabling mouse cursor..."
-sudo sed -i '/#xserver-command=X/c\xserver-command=X -nocursor' /etc/lightdm/lightdm.conf
+sudo sed -i '/#xserver-command=X/c\xserver-command=X -nocursor -s 0 dpms' /etc/lightdm/lightdm.conf
+sudo sed -i '/xserver-command=X -nocursor/c\xserver-command=X -nocursor -s 0 dpms' /etc/lightdm/lightdm.conf
 echo " done"
 
 echo -n " "
