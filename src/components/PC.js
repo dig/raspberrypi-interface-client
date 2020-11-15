@@ -13,9 +13,11 @@ const CHANNEL_DATA = 'data';
 const STORAGE_CPU_NAME_KEY = 'cpuName';
 const STORAGE_GPU_NAME_KEY = 'gpuName';
 const STORAGE_MEMORY_NAME_KEY = 'memoryName';
+const STORAGE_MEMORY_TOTAL_KEY = 'memoryTotal';
 const STORAGE_DISK_NAME_KEY = 'diskName';
 
-const STORAGE_MEMORY_TOTAL_KEY = 'memoryTotal';
+const STORAGE_SYSTEM_UPTIME_KEY = 'systemUptime';
+const STORAGE_SYSTEM_SINCE_KEY = 'systemSince';
 
 const classes = ClassLister(styles);
 
@@ -60,6 +62,10 @@ class PC extends React.Component {
       disk: {
         name: localStorage.getItem(STORAGE_DISK_NAME_KEY) || '...',
         data: []
+      },
+      system: {
+        uptime: Number(localStorage.getItem(STORAGE_SYSTEM_UPTIME_KEY)) || 0,
+        since: Number(localStorage.getItem(STORAGE_SYSTEM_SINCE_KEY)) || 0
       },
     };
   }
@@ -145,6 +151,15 @@ class PC extends React.Component {
       localStorage.setItem(STORAGE_DISK_NAME_KEY, name);
     }
 
+    // System
+    if (data.systemUptime) {
+      const since = Date.now();
+      newState.system.uptime = Number(data.systemUptime);
+      newState.system.since = since;
+      localStorage.setItem(STORAGE_SYSTEM_UPTIME_KEY, data.systemUptime);
+      localStorage.setItem(STORAGE_SYSTEM_SINCE_KEY, since);
+    }
+
     this.setState(newState);
   }
 
@@ -157,6 +172,21 @@ class PC extends React.Component {
         x: obj.x,
         y: (obj.y / this.state.memory.total) * 100
     }));
+
+    const seconds = (Date.now() - this.state.system.since) / 1000;
+    const uptimeSeconds = Math.round(this.state.system.uptime + seconds);
+    
+    let uptime = `${uptimeSeconds} sec${uptimeSeconds > 1 ? 's' : ''}`;
+    if (uptimeSeconds >= 86400) {
+      const days = Math.round(uptimeSeconds / 60 / 60 / 24);
+      uptime = `${days} day${days > 1 ? 's' : ''}`;
+    } else if (uptimeSeconds >= 3600) {
+      const hours = Math.round(uptimeSeconds / 60 / 60);
+      uptime = `${hours} hour${hours > 1 ? 's' : ''}`;
+    } else if (uptimeSeconds >= 60) {
+      const mins = Math.round(uptimeSeconds / 60);
+      uptime = `${mins} min${mins > 1 ? 's' : ''}`;
+    }
 
     return (
       <div className={styles.stats}>
@@ -334,7 +364,7 @@ class PC extends React.Component {
             </div>
 
             <div className={styles.text}>
-              {this.state.uptime ? this.state.uptime : '...'}
+              {uptime}
             </div>
           </div>
 
