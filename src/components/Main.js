@@ -1,6 +1,5 @@
 import React from 'react';
 import ClassLister from 'css-module-class-lister';
-import { Link } from 'react-router-dom';
 
 import styles from '../assets/style/main.module.css';
 import Discord from '../assets/image/discord.png';

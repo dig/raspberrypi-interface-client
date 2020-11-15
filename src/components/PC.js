@@ -7,7 +7,7 @@ import WebSocket from 'ws';
 import styles from '../assets/style/pc.module.css';
 import Home from '../assets/image/home.png';
 
-const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():\"\',\.@#-\s\\]+))+)$/;
+const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():"',.@#-\s\\]+))+)$/;
 const CHANNEL_DATA = 'data';
 
 const STORAGE_CPU_NAME_KEY = 'cpuName';
