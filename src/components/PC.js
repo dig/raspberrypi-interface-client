@@ -140,8 +140,9 @@ class PC extends React.Component {
 
     // Disk
     if (data.diskName) {
-      newState.disk.name = data.diskName;
-      localStorage.setItem(STORAGE_DISK_NAME_KEY, data.diskName);
+      const name = data.diskName.replace('(Standard disk drives)', '');
+      newState.disk.name = name;
+      localStorage.setItem(STORAGE_DISK_NAME_KEY, name);
     }
 
     this.setState(newState);
