@@ -7,7 +7,7 @@ import WebSocket from 'ws';
 import styles from '../assets/style/pc.module.css';
 import Home from '../assets/image/home.png';
 
-const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():\"\',\.@#-\s]+))+)$/;
+const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():\"\',\.@#-\s\\]+))+)$/;
 const CHANNEL_DATA = 'data';
 
 const STORAGE_CPU_NAME_KEY = 'cpuName';
@@ -96,7 +96,7 @@ class PC extends React.Component {
     }
 
     if (data.processorUsage) {
-      if (newState.cpu.data.length >= 60) {
+      while (newState.cpu.data.length >= 60) {
         newState.cpu.data.shift();
       }
 
@@ -128,7 +128,7 @@ class PC extends React.Component {
     }
 
     if (data.memoryAvailable && newState.memory.total > 0) {
-      if (newState.memory.data.length >= 60) {
+      while (newState.memory.data.length >= 60) {
         newState.memory.data.shift();
       }
 
@@ -138,11 +138,16 @@ class PC extends React.Component {
       });
     }
 
+    // Disk
+    if (data.diskName) {
+      newState.disk.name = data.diskName;
+      localStorage.setItem(STORAGE_DISK_NAME_KEY, data.diskName);
+    }
+
     this.setState(newState);
   }
 
   handleHomeClick = () => this.props.history.push('/');
-
   convertBytesToGb = (bytes) => bytes / 1024 / 1024 / 1024;
 
   render() {
