@@ -63,6 +63,16 @@ class PC extends React.Component {
         name: localStorage.getItem(STORAGE_DISK_NAME_KEY) || '...',
         data: []
       },
+      network: {
+        last: {
+          sent: 0,
+          receive: 0,
+          time: 0
+        },
+        sent: 0,
+        receive: 0,
+        time: 0
+      },
       system: {
         uptime: Number(localStorage.getItem(STORAGE_SYSTEM_UPTIME_KEY)) || 0,
         since: Number(localStorage.getItem(STORAGE_SYSTEM_SINCE_KEY)) || 0
@@ -95,7 +105,7 @@ class PC extends React.Component {
     data = JSON.parse(data);
     const newState = this.state;
 
-    // Processor
+    // processor
     if (data.processorName) {
       newState.cpu.name = data.processorName;
       localStorage.setItem(STORAGE_CPU_NAME_KEY, data.processorName);
@@ -116,13 +126,13 @@ class PC extends React.Component {
       newState.cpu.temp = Number(data.processorTemp);
     }
 
-    // GPU
+    // gpu
     if (data.gpuName) {
       newState.gpu.name = data.gpuName;
       localStorage.setItem(STORAGE_GPU_NAME_KEY, data.gpuName);
     }
 
-    // Memory
+    // memory
     if (data.memoryName) {
       newState.memory.name = data.memoryName;
       localStorage.setItem(STORAGE_MEMORY_NAME_KEY, data.memoryName);
@@ -144,20 +154,34 @@ class PC extends React.Component {
       });
     }
 
-    // Disk
+    // disk
     if (data.diskName) {
       const name = data.diskName.replace('(Standard disk drives)', '');
       newState.disk.name = name;
       localStorage.setItem(STORAGE_DISK_NAME_KEY, name);
     }
 
-    // System
+    // system
     if (data.systemUptime) {
       const since = Date.now();
       newState.system.uptime = Number(data.systemUptime);
       newState.system.since = since;
+
       localStorage.setItem(STORAGE_SYSTEM_UPTIME_KEY, data.systemUptime);
       localStorage.setItem(STORAGE_SYSTEM_SINCE_KEY, since);
+    }
+
+    // network
+    if (data.networkBytesRecv && data.networkBytesSent) {
+      if (newState.network.time > 0) {
+        newState.network.last.receive = newState.network.receive;
+        newState.network.last.sent = newState.network.sent;
+        newState.network.last.time = newState.network.time;
+      }
+
+      newState.network.receive = Number(data.networkBytesRecv);
+      newState.network.sent = Number(data.networkBytesSent);
+      newState.network.time = Date.now();
     }
 
     this.setState(newState);
@@ -175,7 +199,6 @@ class PC extends React.Component {
 
     const seconds = (Date.now() - this.state.system.since) / 1000;
     const uptimeSeconds = Math.floor(this.state.system.uptime + seconds);
-    
     let uptime = `${uptimeSeconds} sec${uptimeSeconds > 1 ? 's' : ''}`;
     if (uptimeSeconds >= 86400) {
       const days = Math.floor(uptimeSeconds / 60 / 60 / 24);
@@ -186,6 +209,38 @@ class PC extends React.Component {
     } else if (uptimeSeconds >= 60) {
       const mins = Math.floor(uptimeSeconds / 60);
       uptime = `${mins} min${mins > 1 ? 's' : ''}`;
+    }
+
+    const networkDiff = (this.state.network.time - this.state.network.last.time) / 1000;
+    
+    let download = 0;
+    if (this.state.network.time > 0 && this.state.network.last.time > 0) {
+      download = (this.state.network.receive - this.state.network.last.receive) / networkDiff;
+      if (download >= 1000000) {
+        const mb = Math.floor(download / 1000 / 1000);
+        download = `${mb} MB/s`;
+      } else if (download >= 1000) {
+        const kb = Math.floor(download / 1000);
+        download = `${kb} kB/s`;
+      } else {
+        const b = Math.floor(download);
+        download = `${b} B/s`;
+      }
+    }
+
+    let upload = 0;
+    if (this.state.network.time > 0 && this.state.network.last.time > 0) {
+      upload = (this.state.network.sent - this.state.network.last.sent) / networkDiff;
+      if (upload >= 1000000) {
+        const mb = Math.floor(upload / 1000 / 1000);
+        upload = `${mb} MB/s`;
+      } else if (upload >= 1000) {
+        const kb = Math.floor(upload / 1000);
+        upload = `${kb} kB/s`;
+      } else {
+        const b = Math.floor(upload);
+        upload = `${b} B/s`;
+      }
     }
 
     return (
@@ -374,7 +429,7 @@ class PC extends React.Component {
             </div>
 
             <div className={styles.text}>
-              {this.state.download ? this.state.download : '...'}
+              {download}
             </div>
           </div>
 
@@ -384,7 +439,7 @@ class PC extends React.Component {
             </div>
 
             <div className={styles.text}>
-              {this.state.upload ? this.state.upload : '...'}
+              {upload}
             </div>
           </div>
 
