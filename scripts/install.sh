@@ -47,12 +47,16 @@ sudo chmod +x ~/interface-client/scripts/service.sh
 echo " done"
 
 # Install service
-echo -n "Installing service..."
-sudo ln -s ~/interface-client/service/interface-client.service /lib/systemd/system/interface-client.service
-systemctl daemon-reload
-systemctl enable interface-client.service
-systemctl stop interface-client.service
-echo " done"
+if systemctl --all --type service | grep -q "interface-client.service"; then
+  echo "Service exists, skipping..."
+else
+  echo -n "Installing service..."
+  sudo ln -s ~/interface-client/service/interface-client.service /lib/systemd/system/interface-client.service
+  systemctl daemon-reload
+  systemctl enable interface-client.service
+  systemctl stop interface-client.service
+  echo " done"
+fi
 
 # Disable mouse cursor
 echo -n "Disabling mouse cursor..."
