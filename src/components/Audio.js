@@ -178,6 +178,7 @@ class Audio extends React.Component {
       newValue = 0;
     }
     
+    await this.setState({ percent: Math.round(newValue * 100) });
     await spotifyApi.seek(Math.round(this.state.track.duration * newValue));
     await this.refreshTrackInformation();
   }
@@ -225,7 +226,7 @@ class Audio extends React.Component {
           </div>
 
           <div className={styles.volumeslider}>
-            <Progress height={'20%'} progress={this.state.volume} onClick={this.handleVolumeClick}></Progress>
+            <Progress height={'25%'} progress={this.state.volume} onClick={this.handleVolumeClick}></Progress>
           </div>
         </div>
 

@@ -1,14 +1,13 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import ClassLister from 'css-module-class-lister';
 import Chartist from 'chartist';
 import ChartistGraph from 'react-chartist';
-import WebSocket from 'ws';
 
 import styles from '../assets/style/pc.module.css';
 import Home from '../assets/image/home.png';
 
-const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():"',.@#-\s\\]+))+)$/;
-const CHANNEL_DATA = 'data';
+const SOCKET_KEY = 'pc';
 
 const STORAGE_CPU_NAME_KEY = 'cpuName';
 const STORAGE_GPU_NAME_KEY = 'gpuName';
@@ -80,26 +79,9 @@ class PC extends React.Component {
     };
   }
 
-  componentDidMount = () => {
-    this.ws = new WebSocket(`ws://localhost:${process.env.REACT_APP_SOCKET_PORT}`);
-    this.ws.onopen = (event) => this.ws.send(`authenticate;${process.env.REACT_APP_SOCKET_AUTH_KEY};1`);
-    this.ws.onmessage = this.handleSocketMessage;
-  };
-  componentWillUnmount = () => this.ws.close();
+  componentDidMount = () => this.props.addSocketListener(SOCKET_KEY, 'data', this.handleChannelData);
 
-  handleSocketMessage = (event) => {
-    const message = event.data;
-    if (message.match(CHANNEL_MESSAGE_REGEX)) {
-      const args = message.split(';');
-      const channel = args[0];
-      args.shift();
-      const value = args.join(';');
-
-      if (channel === CHANNEL_DATA) {
-        this.handleChannelData(value);
-      }
-    }
-  }
+  componentWillUnmount = () => this.props.removeSocketListener(SOCKET_KEY);
 
   handleChannelData = (data) => {
     data = JSON.parse(data);
@@ -188,6 +170,7 @@ class PC extends React.Component {
   }
 
   handleHomeClick = () => this.props.history.push('/');
+
   convertBytesToGb = (bytes) => bytes / 1024 / 1024 / 1024;
 
   render() {
@@ -462,4 +445,4 @@ class PC extends React.Component {
   }
 }
 
-export default PC;
+export default withRouter(PC);
