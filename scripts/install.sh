@@ -50,6 +50,7 @@ echo " done"
 # Fix permissions
 echo -n "Fixing service permissions..."
 sudo chmod +x ~/interface-client/scripts/service.sh
+sudo chmod +x ~/interface-client/scripts/install.sh
 echo " done"
 
 # Install service
