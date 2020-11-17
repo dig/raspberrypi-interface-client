@@ -27,7 +27,13 @@ echo " done"
 
 # Download interface files
 echo -n "Downloading interface files..."
-git clone https://github.com/dig/raspberrypi-interface-client.git ~/interface-client
+rm -rf ~/interface-client-temp
+git clone https://github.com/dig/raspberrypi-interface-client.git ~/interface-client-temp
+
+mkdir -p ~/interface-client/
+cp -r ~/interface-client-temp/* ~/interface-client/
+rm -rf ~/interface-client-temp
+
 cd ~/interface-client
 echo " done"
 
