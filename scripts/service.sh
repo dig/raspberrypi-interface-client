@@ -34,7 +34,7 @@ serve_interface() {
 }
 
 serve_interface
-sleep 5
+sleep 10
 
 while true; do 
   kiosk_check
