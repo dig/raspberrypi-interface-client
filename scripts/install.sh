@@ -2,7 +2,7 @@
 
 # Update raspberry
 echo -n "Updating raspberry..."
-sudo apt-get update && sudo apt-get -y upgrade
+sudo apt-get update && sudo apt-get -y upgrade > /dev/null
 echo " done"
 
 # Configure display
@@ -15,8 +15,8 @@ echo " done"
 
 # Dependencies
 echo -n "Installing dependencies..."
-sudo apt-get -y install nodejs npm git
-sudo apt-get -y install --no-install-recommends chromium-browser
+sudo apt-get -y install nodejs npm git > /dev/null
+sudo apt-get -y install --no-install-recommends chromium-browser > /dev/null
 echo " done"
 
 # Configure chromium
@@ -27,24 +27,24 @@ echo " done"
 
 # Download interface files
 echo -n "Downloading interface files..."
-rm -rf ~/interface-client-temp
-git clone https://github.com/dig/raspberrypi-interface-client.git ~/interface-client-temp
+rm -rf ~/interface-client-temp > /dev/null
+git clone https://github.com/dig/raspberrypi-interface-client.git ~/interface-client-temp > /dev/null
 
-mkdir -p ~/interface-client/
-cp -r ~/interface-client-temp/* ~/interface-client/
-rm -rf ~/interface-client-temp
+mkdir -p ~/interface-client/ > /dev/null
+cp -r ~/interface-client-temp/* ~/interface-client/ > /dev/null
+rm -rf ~/interface-client-temp > /dev/null
 
-cd ~/interface-client
+cd ~/interface-client > /dev/null
 echo " done"
 
 # Node dependencies
 echo -n "Installing node dependencies..."
-sudo npm run setup
+sudo npm run setup > /dev/null
 echo " done"
 
 # Build react app
 echo -n "Building react app..."
-sudo npm run build
+sudo npm run build > /dev/null
 echo " done"
 
 # Fix permissions
