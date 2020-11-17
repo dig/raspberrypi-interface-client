@@ -55,8 +55,8 @@ echo " done"
 
 # Fix permissions
 echo -n "Fixing service permissions..."
-sudo chmod +x ~/interface-client/scripts/service.sh
-sudo chmod +x ~/interface-client/scripts/install.sh
+chmod +x ~/interface-client/scripts/service.sh
+chmod +x ~/interface-client/scripts/install.sh
 echo " done"
 
 # Install service
@@ -65,9 +65,9 @@ if systemctl --all --type service | grep -q "interface-client.service"; then
 else
   echo -n "Installing service..."
   sudo ln -s ~/interface-client/service/interface-client.service /lib/systemd/system/interface-client.service
-  systemctl daemon-reload
-  systemctl enable interface-client.service
-  systemctl stop interface-client.service
+  sudo systemctl daemon-reload
+  sudo systemctl enable interface-client.service
+  sudo systemctl stop interface-client.service
   echo " done"
 fi
 
