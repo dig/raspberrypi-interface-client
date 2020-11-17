@@ -83,5 +83,3 @@ echo -n " "
 
 sleep 10
 sudo reboot
-
-
