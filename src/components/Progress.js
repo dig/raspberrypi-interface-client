@@ -15,6 +15,7 @@ class Progress extends React.Component {
     if (this.props.onClick) {
       await this.props.onClick(event);
     }
+    
     this.setState({ mouseDown: false });
   };
 

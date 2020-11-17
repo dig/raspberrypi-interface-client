@@ -5,6 +5,8 @@
   "private": true,
   "dependencies": {
     "chartist": "^0.11.4",
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.2",
     "css-module-class-lister": "^1.2.0",
     "moment": "^2.27.0",
     "react": "^16.13.1",
@@ -14,9 +16,8 @@
     "react-number-format": "^4.4.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
-    "spotify-web-api-js": "^1.5.1",
-    "concurrently": "^5.3.0",
-    "cross-env": "^7.0.2"
+    "react-slider": "^1.1.2",
+    "spotify-web-api-js": "^1.5.1"
   },
   "scripts": {
     "socket": "cd socket && npm run start",

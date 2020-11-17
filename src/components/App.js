@@ -6,15 +6,19 @@ import '../assets/style/index.css';
 import Main from './Main';
 import PC from './PC';
 import Audio from './Audio';
-import Update from './Update';
+import Controls from './Controls';
 
 const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():"',.@#-\s\\]+))+)$/;
+const LAYER = {
+  NONE: 'none',
+  CONTROLS: 'controls'
+};
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      update: false,
+      layer: LAYER.NONE,
     };
     this.listeners = {};
   }
@@ -36,8 +40,11 @@ class App extends React.Component {
       const value = args.join(';');
       
       for (const key of Object.keys(this.listeners)) {
-        const callback = this.listeners[key][channel];
-        callback(value);
+        if (this.listeners[key][channel]) {
+          const callback = this.listeners[key][channel];
+          console.log(`${channel} => ${value}`);
+          callback(value);
+        }
       }
     }
   }
@@ -55,37 +62,33 @@ class App extends React.Component {
     delete this.listeners[key];
   }
 
-  handleMouseDown = () => this.mouseDownTimeout = setTimeout(this.handleUpdateClick, 5000);
+  emitSocketMessage = (channel, data) => this.ws.send(`${channel};${data}`);
 
+  handleMouseDown = () => this.mouseDownTimeout = setTimeout(this.handleUpdateClick, 5 * 1000);
   handleMouseUp = () => clearTimeout(this.mouseDownTimeout);
-
-  handleUpdateClick = () => {
-    console.log('handleUpdateClick');
-  }
+  handleUpdateClick = () => this.setState({ layer: LAYER.CONTROLS });
 
   render() {
     return (
       <div className="app" onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp}>
-        {this.state.update &&
-          <Update />
+        {this.state.layer === LAYER.CONTROLS &&
+          <Controls emitSocketMessage={this.emitSocketMessage} addSocketListener={this.addSocketListener} removeSocketListener={this.removeSocketListener} close={() => this.setState({ layer: LAYER.NONE })} />
         }
 
-        {!this.state.update &&
-          <>
-            <div className="content">
-              <BrowserRouter>
-                <Switch>
-                  <Route path='/pc' exact component={() => <PC addSocketListener={this.addSocketListener} removeSocketListener={this.removeSocketListener} />} />
-                  <Route path='*' component={Main} />
-                </Switch>
-              </BrowserRouter>
-            </div>
+        <>
+          <div className="content">
+            <BrowserRouter>
+              <Switch>
+                <Route path='/pc' exact component={() => <PC addSocketListener={this.addSocketListener} removeSocketListener={this.removeSocketListener} />} />
+                <Route path='*' component={Main} />
+              </Switch>
+            </BrowserRouter>
+          </div>
 
-            <div className="audio">
-              <Audio />
-            </div>
-          </>
-        }
+          <div className="audio">
+            <Audio />
+          </div>
+        </>
       </div>
     );
   }
