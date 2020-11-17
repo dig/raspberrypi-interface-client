@@ -10,16 +10,21 @@ class Progress extends React.Component {
     };
   }
 
-  handleMouseDown = () => this.setState({ mouseDown: true, progress: this.props.progress ? this.props.progress : 0 });
+  handleMouseDown = () => {
+    console.log('handleMouseDown');
+    this.setState({ mouseDown: true, progress: this.props.progress ? this.props.progress : 0 })
+  };
   handleMouseUp = async (event) => {
+    console.log('handleMouseUp');
     if (this.props.onClick) {
       await this.props.onClick(event);
     }
-    
+
     this.setState({ mouseDown: false });
   };
 
   handleMouseMove = (event) => {
+    console.log('handleMouseMove');
     if (this.state.mouseDown) {
       let newValue = event.nativeEvent.offsetX * 1 / event.currentTarget.offsetWidth;
       if (newValue < 0.05) {
