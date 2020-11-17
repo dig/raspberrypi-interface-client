@@ -64,13 +64,13 @@ class App extends React.Component {
 
   emitSocketMessage = (channel, data) => this.ws.send(`${channel};${data}`);
 
-  handleMouseDown = () => this.mouseDownTimeout = setTimeout(this.handleUpdateClick, 5 * 1000);
-  handleMouseUp = () => clearTimeout(this.mouseDownTimeout);
+  handlePointerDown = () => this.pointerDownTimeout = setTimeout(this.handleUpdateClick, 2 * 1000);
+  handlePointerUp = () => clearTimeout(this.pointerDownTimeout);
   handleUpdateClick = () => this.setState({ layer: LAYER.CONTROLS });
 
   render() {
     return (
-      <div className="app" onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp}>
+      <div className="app" onPointerDown={this.handlePointerDown} onPointerUp={this.handlePointerUp}>
         {this.state.layer === LAYER.CONTROLS &&
           <Controls emitSocketMessage={this.emitSocketMessage} addSocketListener={this.addSocketListener} removeSocketListener={this.removeSocketListener} close={() => this.setState({ layer: LAYER.NONE })} />
         }
