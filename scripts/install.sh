@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check for root / sudo
+if [[ $EUID -ne 0 ]]; then
+  echo "Please run this script either as root or with sudo." 
+  exit 1
+fi
+
 # Update raspberry
 echo -n "Updating raspberry..."
 sudo apt-get update && sudo apt-get -y upgrade &> /dev/null
