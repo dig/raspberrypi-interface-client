@@ -47,6 +47,12 @@ echo -n "Building react app..."
 sudo npm run build > /dev/null
 echo " done"
 
+# Disable bluetooth
+echo -n "Disabling bluetooth..."
+sudo systemctl stop bluetooth
+sudo systemctl disable bluetooth
+echo " done"
+
 # Fix permissions
 echo -n "Fixing service permissions..."
 sudo chmod +x ~/interface-client/scripts/service.sh
