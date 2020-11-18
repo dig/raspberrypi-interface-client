@@ -16,7 +16,7 @@ echo " done"
 # Dependencies
 echo -n "Installing dependencies..."
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - &> /dev/null
-apt-get -y install nodejs npm git &> /dev/null
+apt-get -y install nodejs git &> /dev/null
 apt-get -y install --no-install-recommends chromium-browser &> /dev/null
 echo " done"
 
