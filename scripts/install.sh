@@ -55,7 +55,8 @@ systemctl disable bluetooth
 echo " done"
 
 # Fix permissions
-echo -n "Fixing service permissions..."
+echo -n "Fixing permissions..."
+chown -R pi:pi "$HOME_PATH/interface-client"
 chmod +x "$HOME_PATH/interface-client/scripts/service.sh"
 chmod +x "$HOME_PATH/interface-client/scripts/install.sh"
 echo " done"
