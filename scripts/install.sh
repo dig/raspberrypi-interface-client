@@ -34,14 +34,14 @@ echo " done"
 
 # Download interface files
 echo -n "Downloading interface files..."
-rm -rf ~/interface-client-temp &> /dev/null
+rm -rf ~/interface-client-temp
 git clone https://github.com/dig/raspberrypi-interface-client.git ~/interface-client-temp &> /dev/null
 
-mkdir -p ~/interface-client/ &> /dev/null
-cp -r ~/interface-client-temp/* ~/interface-client/ &> /dev/null
-rm -rf ~/interface-client-temp &> /dev/null
+mkdir -p ~/interface-client
+cp -r ~/interface-client-temp/* ~/interface-client
+rm -rf ~/interface-client-temp
 
-cd ~/interface-client &> /dev/null
+cd ~/interface-client
 echo " done"
 
 # Node dependencies
