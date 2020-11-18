@@ -35,8 +35,7 @@ class Controls extends React.Component {
 
   handleUpdateState = (id, state) => {
     id = Number(id);
-    state = Boolean(state);
-    if (id === 0 && state) {
+    if (id === 0 && state === 'true') {
       this.props.update();
     }
   }
