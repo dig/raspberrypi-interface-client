@@ -180,18 +180,22 @@ class PC extends React.Component {
         y: (obj.y / this.state.memory.total) * 100
     }));
 
-    const seconds = (Date.now() - this.state.system.since) / 1000;
-    const uptimeSeconds = Math.floor(this.state.system.uptime + seconds);
-    let uptime = `${uptimeSeconds} sec${uptimeSeconds > 1 ? 's' : ''}`;
-    if (uptimeSeconds >= 86400) {
-      const days = Math.floor(uptimeSeconds / 60 / 60 / 24);
-      uptime = `${days} day${days > 1 ? 's' : ''}`;
-    } else if (uptimeSeconds >= 3600) {
-      const hours = Math.floor(uptimeSeconds / 60 / 60);
-      uptime = `${hours} hour${hours > 1 ? 's' : ''}`;
-    } else if (uptimeSeconds >= 60) {
-      const mins = Math.floor(uptimeSeconds / 60);
-      uptime = `${mins} min${mins > 1 ? 's' : ''}`;
+    let uptime = 0;
+    if (this.state.system.since > 0 && this.state.system.uptime > 0) {
+      const seconds = (Date.now() - this.state.system.since) / 1000;
+      const uptimeSeconds = Math.floor(this.state.system.uptime + seconds);
+      uptime = `${uptimeSeconds} sec${uptimeSeconds > 1 ? 's' : ''}`;
+     
+      if (uptimeSeconds >= 86400) {
+        const days = Math.floor(uptimeSeconds / 60 / 60 / 24);
+        uptime = `${days} day${days > 1 ? 's' : ''}`;
+      } else if (uptimeSeconds >= 3600) {
+        const hours = Math.floor(uptimeSeconds / 60 / 60);
+        uptime = `${hours} hour${hours > 1 ? 's' : ''}`;
+      } else if (uptimeSeconds >= 60) {
+        const mins = Math.floor(uptimeSeconds / 60);
+        uptime = `${mins} min${mins > 1 ? 's' : ''}`;
+      }
     }
 
     const networkDiff = (this.state.network.time - this.state.network.last.time) / 1000;
