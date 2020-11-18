@@ -41,13 +41,11 @@ class App extends React.Component {
       const args = message.split(';');
       const channel = args[0];
       args.shift();
-      const value = args.join(';');
       
       for (const key of Object.keys(this.listeners)) {
         if (this.listeners[key][channel]) {
           const callback = this.listeners[key][channel];
-          console.log(`${channel} => ${value}`);
-          callback(...value.split(';'));
+          callback(...args);
         }
       }
     }

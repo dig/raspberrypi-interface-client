@@ -15,7 +15,7 @@ class Controls extends React.Component {
     };
   }
 
-  componentDidMount = () => this.props.addSocketListener(SOCKET_KEY, 'update_state', this.handleUpdateState);
+  componentDidMount = () => this.props.addSocketListener(SOCKET_KEY, 'updateState', this.handleUpdateState);
   componentWillUnmount = () => this.props.removeSocketListener(SOCKET_KEY);
 
   handleClose = (event) => {

@@ -41,17 +41,17 @@ let isUpdating = false;
 addSocketEvent('update', () => {
   if (!isUpdating) {
     isUpdating = true;
-    wss.broadcast(formatResponse('update_state', 0, true));
+    wss.broadcast(formatResponse('updateState', 0, true));
 
     const child = execSync('sudo sh ~/interface-client/scripts/install.sh');
     if (child.error) {
-      wss.broadcast(formatResponse('update_state', 1, false));
+      wss.broadcast(formatResponse('updateState', 1, false));
     } else {
-      wss.broadcast(formatResponse('update_state', 1, true));
+      wss.broadcast(formatResponse('updateState', 1, true));
     }
     isUpdating = false;
   } else {
-    wss.broadcast(formatResponse('update_state', 0, false));
+    wss.broadcast(formatResponse('updateState', 0, false));
   }
 });
 
