@@ -43,8 +43,8 @@ class Controls extends React.Component {
 
   render() {
     return (
-      <div className={styles.background} onClick={this.handleClose}>
-        <div className={styles.sliderouter}>
+      <div className={styles.background}>
+        <div className={styles.sliderouter} onClick={this.handleClose}>
           <ReactSlider 
             value={this.state.value}
             className={styles.slider}
