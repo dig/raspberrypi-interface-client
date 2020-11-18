@@ -38,6 +38,12 @@ rm -rf "$HOME_PATH/interface-client-temp"
 cd "$HOME_PATH/interface-client"
 echo " done"
 
+# Wait for .env
+chown -R pi:pi "$HOME_PATH/interface-client"
+echo -n "Please copy .env.default to .env and configure. Waiting..."
+while [ ! -f "$HOME_PATH/interface-client/.env" ]; do sleep 1; done
+echo " done"
+
 # Node dependencies
 echo -n "Installing node dependencies..."
 npm run setup &> /dev/null
@@ -80,7 +86,6 @@ sed -i '/xserver-command=X -nocursor/c\xserver-command=X -nocursor -s 0 dpms' /e
 echo " done"
 
 echo -n "Complete! rebooting in 10 seconds..."
-echo -n " "
 
 sleep 10
 sudo reboot
