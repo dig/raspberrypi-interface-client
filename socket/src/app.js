@@ -56,6 +56,7 @@ addSocketEvent('update', () => {
 });
 
 addSocketEvent('shutdown', () => exec('sudo shutdown now'));
+addSocketEvent('restart', () => exec('sudo reboot'));
 
 const handleSocketMessage = (message, ws) => {
   if (ws.authenticated && ws.clientType === 0) {
