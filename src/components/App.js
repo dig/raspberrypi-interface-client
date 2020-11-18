@@ -64,8 +64,19 @@ class App extends React.Component {
 
   emitSocketMessage = (channel, data) => this.ws.send(`${channel};${data}`);
 
-  handlePointerDown = () => this.pointerDownTimeout = setTimeout(this.handleUpdateClick, 7 * 1000);
-  handlePointerUp = () => clearTimeout(this.pointerDownTimeout);
+  handlePointerDown = () => {
+    if (this.pointerDownTimeout != null) {
+      clearTimeout(this.pointerDownTimeout);
+    }
+
+    this.pointerDownTimeout = setTimeout(this.handleUpdateClick, 6 * 1000);
+  };
+
+  handlePointerUp = () => {
+    clearTimeout(this.pointerDownTimeout);
+    this.pointerDownTimeout = null;
+  };
+  
   handleUpdateClick = () => this.setState({ layer: LAYER.CONTROLS });
 
   render() {
