@@ -25,7 +25,7 @@ Before trying to install the client, please make sure you have completed the con
 <br/><br/>
 Download the install shell script
 ```
-wget https://raw.githubusercontent.com/dig/raspberrypi-interface-client/master/scripts/install.sh
+wget --no-cache https://raw.githubusercontent.com/dig/raspberrypi-interface-client/master/scripts/install.sh
 ```
 
 Apply correct permissions
