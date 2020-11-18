@@ -47,7 +47,7 @@ class App extends React.Component {
         if (this.listeners[key][channel]) {
           const callback = this.listeners[key][channel];
           console.log(`${channel} => ${value}`);
-          callback(value);
+          callback(...value.split(';'));
         }
       }
     }
