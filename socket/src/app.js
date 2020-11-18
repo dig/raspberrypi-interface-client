@@ -2,9 +2,7 @@ require('dotenv').config({ path: '../.env' });
 
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: process.env.REACT_APP_SOCKET_PORT });
-
-const { execSync } = require('child_process');
-let isUpdating = false;
+const { execSync, exec } = require('child_process');
 
 const channelMessageRegex = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():\"\',\.@#-\s]+))+)$/;
 const events = {};
@@ -20,7 +18,7 @@ wss.broadcast = function(message, type = 1) {
   }
 };
 
-const formatResponse = (channel, data) => `${channel};${data}`;
+const formatResponse = (channel, ...data) => `${channel};${data.join(';')}`;
 
 const addSocketEvent = (channel, func) => {
   const attached = [];
@@ -39,22 +37,25 @@ addSocketEvent('authenticate', (socket, value, type) => {
   }
 });
 
+let isUpdating = false;
 addSocketEvent('update', () => {
   if (!isUpdating) {
     isUpdating = true;
+    wss.broadcast(formatResponse('update_state', 0, true));
 
-    const child = execSync('sh ~/interface-client/scripts/install.sh');
+    const child = execSync('sudo sh ~/interface-client/scripts/install.sh');
     if (child.error) {
-      wss.broadcast(formatResponse('update_state', 0));
+      wss.broadcast(formatResponse('update_state', 1, false));
     } else {
-      wss.broadcast(formatResponse('update_state', 1));
+      wss.broadcast(formatResponse('update_state', 1, true));
     }
-
     isUpdating = false;
+  } else {
+    wss.broadcast(formatResponse('update_state', 0, false));
   }
 });
 
-addSocketEvent('shutdown', () => exec('shutdown now'));
+addSocketEvent('shutdown', () => exec('sudo shutdown now'));
 
 const handleSocketMessage = (message, ws) => {
   if (ws.authenticated && ws.clientType === 0) {

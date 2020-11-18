@@ -7,19 +7,23 @@ import Main from './Main';
 import PC from './PC';
 import Audio from './Audio';
 import Controls from './Controls';
+import Update from './Update';
 
 const CHANNEL_MESSAGE_REGEX = /^([a-zA-Z0-9]+)((;([a-zA-Z0-9{}():"',.@#-\s\\]+))+)$/;
 const LAYER = {
   NONE: 'none',
-  CONTROLS: 'controls'
+  CONTROLS: 'controls',
+  UPDATE: 'update'
 };
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       layer: LAYER.NONE,
     };
+
     this.listeners = {};
   }
 
@@ -83,7 +87,11 @@ class App extends React.Component {
     return (
       <div className="app" onPointerDown={this.handlePointerDown} onPointerUp={this.handlePointerUp}>
         {this.state.layer === LAYER.CONTROLS &&
-          <Controls emitSocketMessage={this.emitSocketMessage} addSocketListener={this.addSocketListener} removeSocketListener={this.removeSocketListener} close={() => this.setState({ layer: LAYER.NONE })} />
+          <Controls emitSocketMessage={this.emitSocketMessage} addSocketListener={this.addSocketListener} removeSocketListener={this.removeSocketListener} update={() => this.setState({ layer: LAYER.UPDATE })} close={() => this.setState({ layer: LAYER.NONE })} />
+        }
+
+        {this.state.layer === LAYER.UPDATE &&
+          <Update addSocketListener={this.addSocketListener} removeSocketListener={this.removeSocketListener} close={() => this.setState({ layer: LAYER.NONE })} />
         }
 
         <>

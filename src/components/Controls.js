@@ -12,12 +12,10 @@ class Controls extends React.Component {
     super(props);
     this.state = {
       value: 0,
-      test: 'yellow',
     };
   }
 
   componentDidMount = () => this.props.addSocketListener(SOCKET_KEY, 'update_state', this.handleUpdateState);
-
   componentWillUnmount = () => this.props.removeSocketListener(SOCKET_KEY);
 
   handleClose = (event) => {
@@ -28,16 +26,19 @@ class Controls extends React.Component {
   }
 
   handleAfterChange = (value) => {
-    if (value >= 100) {
+    if (value >= 95) {
       this.props.emitSocketMessage('shutdown', true);
     }
   }
 
   handleUpdateClick = () => this.props.emitSocketMessage('update', true);
 
-  handleUpdateState = (state) => {
-    state = Number(state);
-    this.setState({ test: state === 0 ? 'red' : 'green' });
+  handleUpdateState = (id, state) => {
+    id = Number(id);
+    state = Boolean(state);
+    if (id === 0 && state) {
+      this.props.update();
+    }
   }
 
   render() {
@@ -55,7 +56,9 @@ class Controls extends React.Component {
         </div>
 
         <div className={styles.update}>
-          <img src={Refresh} alt="Update icon" styles={{ background: this.state.test }} onClick={this.handleUpdateClick} />
+          <div className={styles.update_icon}>
+            <img src={Refresh} alt="Update icon"  onClick={this.handleUpdateClick} />
+          </div>
         </div>
       </div>
     );
