@@ -6,17 +6,17 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-# Update raspberry
-echo -n "Updating raspberry..."
-sudo apt-get update && sudo apt-get -y upgrade &> /dev/null
-echo " done"
-
 # Configure display
 echo -n "Configuring display..."
 export DISPLAY=:0
 xset -dpms
 xset s noblank
 xset s off
+echo " done"
+
+# Update raspberry
+echo -n "Updating raspberry..."
+sudo apt-get update && sudo apt-get -y upgrade &> /dev/null
 echo " done"
 
 # Dependencies
