@@ -35,5 +35,5 @@ chmod +x install.sh
 
 And finally install
 ```
-./install.sh
+sudo ./install.sh
 ```
