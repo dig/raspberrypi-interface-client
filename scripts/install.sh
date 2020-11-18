@@ -8,14 +8,6 @@ fi
 
 HOME_PATH="/home/pi"
 
-# Configure display
-echo -n "Configuring display..."
-export DISPLAY=:0
-xset -dpms
-xset s noblank
-xset s off
-echo " done"
-
 # Update raspberry
 echo -n "Updating raspberry..."
 apt-get update && apt-get -y upgrade &> /dev/null
@@ -37,7 +29,7 @@ echo " done"
 # Download interface files
 echo -n "Downloading interface files..."
 rm -rf "$HOME_PATH/interface-client-temp"
-git clone https://github.com/dig/raspberrypi-interface-client.git "$HOME_PATH/interface-client-temp"
+git clone https://github.com/dig/raspberrypi-interface-client.git "$HOME_PATH/interface-client-temp" &> /dev/null
 
 mkdir -p "$HOME_PATH/interface-client"
 cp -r "$HOME_PATH/interface-client-temp"/* "$HOME_PATH/interface-client"
