@@ -65,6 +65,13 @@ echo -n "Fixing permissions..."
 chown -R pi:pi "$HOME_PATH/interface-client"
 chmod +x "$HOME_PATH/interface-client/scripts/service.sh"
 chmod +x "$HOME_PATH/interface-client/scripts/install.sh"
+
+if cat /etc/sudoers | grep -q 'pi ALL=(ALL) NOPASSWD:ALL'; then
+  echo "pi already has sudo, skipping..."
+else
+  echo 'pi ALL=(ALL) NOPASSWD:ALL' | sudo EDITOR='tee -a' visudo
+fi
+
 echo " done"
 
 # Install service
