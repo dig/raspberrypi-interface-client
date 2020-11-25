@@ -21,6 +21,8 @@ Rename .env.default to .env and fill out the fields.
 
 ## Installation
 
+**This is still a WIP!**
+
 Before trying to install the client, please make sure you have completed the configuration section above.
 <br/><br/>
 Download the install shell script
